@@ -114,6 +114,7 @@ export default function BookingConfirmation() {
               </div>
             </div>
 
+<<<<<<< HEAD
             {/* Booking ID */}
             <div className="border-t border-white/20 px-5 py-2">
               <div className="flex items-center justify-between">
@@ -122,6 +123,8 @@ export default function BookingConfirmation() {
               </div>
             </div>
 
+=======
+>>>>>>> c2611885a86f5d785e90f90ba272a6e7b4546637
             {/* Middle: DATE | TICKET */}
             <div className="flex items-stretch border-t border-white/20 px-5 py-4">
               <div className="flex-1">
@@ -149,6 +152,7 @@ export default function BookingConfirmation() {
             {/* Bottom: QR + NAME / EMAIL */}
             <div className="flex gap-4 p-5 pt-4">
               <div className="shrink-0 rounded-lg border-2 border-white/40 bg-white p-1.5">
+<<<<<<< HEAD
                 {booking.qrCode ? (
                   <img
                     src={booking.qrCode}
@@ -167,6 +171,16 @@ export default function BookingConfirmation() {
                     crossOrigin="anonymous"
                   />
                 )}
+=======
+                <img
+                  src={`https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${qrData}&format=svg`}
+                  alt="Booking QR code"
+                  width={120}
+                  height={120}
+                  className="block h-[120px] w-[120px]"
+                  crossOrigin="anonymous"
+                />
+>>>>>>> c2611885a86f5d785e90f90ba272a6e7b4546637
               </div>
               <div className="flex min-w-0 flex-1 flex-col justify-center">
                 <p className="text-[10px] font-medium uppercase tracking-widest text-white/80">Name</p>
@@ -175,12 +189,15 @@ export default function BookingConfirmation() {
                 <p className="mt-0.5 truncate text-sm font-medium text-white/90">{userEmail || '—'}</p>
               </div>
             </div>
+<<<<<<< HEAD
 
             {/* Full Booking ID for manual verification */}
             <div className="border-t border-white/20 bg-white/10 px-5 py-3 text-center">
               <p className="text-[9px] font-medium uppercase tracking-widest text-white/70 mb-1">Booking Reference (for manual check-in)</p>
               <p className="font-mono text-sm font-bold tracking-wider text-white select-all">{booking._id}</p>
             </div>
+=======
+>>>>>>> c2611885a86f5d785e90f90ba272a6e7b4546637
           </div>
         </div>
 

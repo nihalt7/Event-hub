@@ -34,9 +34,12 @@ const bookingSchema = new mongoose.Schema(
     paymentId: { type: String },
     paymentMethod: { type: String },
     qrCode: { type: String },
+<<<<<<< HEAD
     secureToken: { type: String },
     checkedIn: { type: Boolean, default: false },
     checkedInAt: { type: Date },
+=======
+>>>>>>> c2611885a86f5d785e90f90ba272a6e7b4546637
   },
   { timestamps: true }
 );

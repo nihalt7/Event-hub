@@ -1,6 +1,9 @@
 const Booking = require('../models/Booking');
 const Event = require('../models/Event');
+<<<<<<< HEAD
 const { generateSecureToken, generateQRCode, verifyQRPayload } = require('../utils/qrCode');
+=======
+>>>>>>> c2611885a86f5d785e90f90ba272a6e7b4546637
 
 /**
  * @route   GET /api/bookings
@@ -62,8 +65,11 @@ exports.createBooking = async (req, res, next) => {
       return res.status(400).json({ success: false, message: 'Not enough tickets available' });
     }
     const totalAmount = ticketType.price * quantity;
+<<<<<<< HEAD
     
     // Create booking first to get the ID
+=======
+>>>>>>> c2611885a86f5d785e90f90ba272a6e7b4546637
     const booking = await Booking.create({
       user: req.user.id,
       event: eventId,
@@ -72,6 +78,7 @@ exports.createBooking = async (req, res, next) => {
       totalAmount,
       status: 'confirmed',
     });
+<<<<<<< HEAD
 
     // Generate secure token and QR code
     const secureToken = generateSecureToken(booking._id, eventId, req.user.id);
@@ -84,6 +91,11 @@ exports.createBooking = async (req, res, next) => {
     event.attendees.addToSet(req.user.id);
     await event.save();
     
+=======
+    ticketType.sold = (ticketType.sold || 0) + quantity;
+    event.attendees.addToSet(req.user.id);
+    await event.save();
+>>>>>>> c2611885a86f5d785e90f90ba272a6e7b4546637
     const populated = await Booking.findById(booking._id)
       .populate('event', 'title date venue')
       .populate('user', 'name email');
@@ -144,6 +156,7 @@ exports.getEventBookings = async (req, res, next) => {
     next(err);
   }
 };
+<<<<<<< HEAD
 
 /**
  * @route   POST /api/bookings/verify-qr
@@ -640,3 +653,5 @@ exports.getBookingStats = async (req, res, next) => {
     next(err);
   }
 };
+=======
+>>>>>>> c2611885a86f5d785e90f90ba272a6e7b4546637

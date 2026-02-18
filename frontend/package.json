@@ -11,7 +11,10 @@
   "dependencies": {
     "axios": "^1.6.2",
     "html2canvas": "^1.4.1",
+<<<<<<< HEAD
     "html5-qrcode": "^2.3.8",
+=======
+>>>>>>> c2611885a86f5d785e90f90ba272a6e7b4546637
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",

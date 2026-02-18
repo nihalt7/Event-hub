@@ -13,12 +13,18 @@ const reviewRoutes = require('./routes/reviewRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');
 const path = require('path');
 
+<<<<<<< HEAD
+=======
+connectDB();
+
+>>>>>>> c2611885a86f5d785e90f90ba272a6e7b4546637
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 // CORS - allow frontend origin
 app.use(
   cors({
+<<<<<<< HEAD
     origin: function (origin, callback) {
       // Allow requests with no origin (like mobile apps or curl requests)
       if (!origin) return callback(null, true);
@@ -41,6 +47,9 @@ app.use(
         callback(null, true); // Allow all origins in development
       }
     },
+=======
+    origin: process.env.CLIENT_URL || 'http://localhost:3000',
+>>>>>>> c2611885a86f5d785e90f90ba272a6e7b4546637
     credentials: true,
   })
 );
@@ -72,6 +81,7 @@ app.use((req, res) => {
 
 app.use(errorHandler);
 
+<<<<<<< HEAD
 const start = async () => {
   await connectDB();
   app.listen(PORT, () => {
@@ -82,4 +92,8 @@ const start = async () => {
 start().catch((err) => {
   console.error('Failed to start server:', err.message);
   process.exit(1);
+=======
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT} (${process.env.NODE_ENV || 'development'})`);
+>>>>>>> c2611885a86f5d785e90f90ba272a6e7b4546637
 });

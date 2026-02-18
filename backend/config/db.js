@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+<<<<<<< HEAD
 const connectDB = async (retries = 5) => {
   for (let i = 0; i < retries; i++) {
     try {
@@ -16,6 +17,15 @@ const connectDB = async (retries = 5) => {
         process.exit(1);
       }
     }
+=======
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect(process.env.MONGODB_URI);
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
+  } catch (error) {
+    console.error(`Error: ${error.message}`);
+    process.exit(1);
+>>>>>>> c2611885a86f5d785e90f90ba272a6e7b4546637
   }
 };
 

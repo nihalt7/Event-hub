@@ -14,8 +14,11 @@ import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
 import CreateEvent from './pages/CreateEvent';
 import EditEvent from './pages/EditEvent';
+<<<<<<< HEAD
 import EventSales from './pages/EventSales';
 import TicketScanner from './pages/TicketScanner';
+=======
+>>>>>>> c2611885a86f5d785e90f90ba272a6e7b4546637
 import MyBookings from './pages/MyBookings';
 import AdminPanel from './pages/AdminPanel';
 import About from './pages/About';
@@ -51,8 +54,11 @@ export default function App() {
           <Route path="bookings/:id/confirmation" element={<BookingConfirmation />} />
           <Route path="events/create" element={<CreateEvent />} />
           <Route path="events/edit/:id" element={<EditEvent />} />
+<<<<<<< HEAD
           <Route path="events/:eventId/sales" element={<EventSales />} />
           <Route path="events/:eventId/scanner" element={<TicketScanner />} />
+=======
+>>>>>>> c2611885a86f5d785e90f90ba272a6e7b4546637
           <Route path="admin" element={<AdminPanel />} />
         </Route>
 
