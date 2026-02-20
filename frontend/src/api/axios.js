@@ -17,20 +17,12 @@ api.interceptors.request.use(
   (err) => Promise.reject(err)
 );
 
-<<<<<<< HEAD
 // Handle 401 globally (except for login/register - let those show their own errors)
 api.interceptors.response.use(
   (res) => res,
   (err) => {
     const isAuthRequest = err.config?.url?.includes('/auth/login') || err.config?.url?.includes('/auth/register');
     if (err.response?.status === 401 && !isAuthRequest) {
-=======
-// Handle 401 globally
-api.interceptors.response.use(
-  (res) => res,
-  (err) => {
-    if (err.response?.status === 401) {
->>>>>>> c2611885a86f5d785e90f90ba272a6e7b4546637
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       window.location.href = '/login';

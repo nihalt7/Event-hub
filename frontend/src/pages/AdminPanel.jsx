@@ -8,23 +8,17 @@ export default function AdminPanel() {
   const { user } = useAuth();
   const [users, setUsers] = useState([]);
   const [events, setEvents] = useState([]);
-<<<<<<< HEAD
   const [bookings, setBookings] = useState([]);
   const [bookingStats, setBookingStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('sales');
   const [selectedEvent, setSelectedEvent] = useState('');
-=======
-  const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState('events');
->>>>>>> c2611885a86f5d785e90f90ba272a6e7b4546637
 
   useEffect(() => {
     if (user?.role !== 'admin') return;
     Promise.all([
       api.get('/users').then((r) => setUsers(r.data.data || [])).catch(() => setUsers([])),
       api.get('/events/admin/all').then((r) => setEvents(r.data.data || [])).catch(() => setEvents([])),
-<<<<<<< HEAD
       api.get('/bookings/admin/all').then((r) => {
         setBookings(r.data.data || []);
         setBookingStats(r.data.stats || null);
@@ -37,11 +31,6 @@ export default function AdminPanel() {
     return bookings.filter(b => b.event?._id === selectedEvent);
   };
 
-=======
-    ]).finally(() => setLoading(false));
-  }, [user?.role]);
-
->>>>>>> c2611885a86f5d785e90f90ba272a6e7b4546637
   const handleApprove = async (eventId) => {
     try {
       await api.patch(`/events/${eventId}/approve`);
@@ -75,7 +64,6 @@ export default function AdminPanel() {
 
       <div className="mt-6 flex gap-2 border-b border-gray-200">
         <button
-<<<<<<< HEAD
           onClick={() => setActiveTab('sales')}
           className={`border-b-2 px-4 py-2 font-medium ${
             activeTab === 'sales' ? 'border-primary-600 text-primary-600' : 'border-transparent text-gray-600'
@@ -84,8 +72,6 @@ export default function AdminPanel() {
           Sales & Bookings
         </button>
         <button
-=======
->>>>>>> c2611885a86f5d785e90f90ba272a6e7b4546637
           onClick={() => setActiveTab('events')}
           className={`border-b-2 px-4 py-2 font-medium ${
             activeTab === 'events' ? 'border-primary-600 text-primary-600' : 'border-transparent text-gray-600'
@@ -103,7 +89,6 @@ export default function AdminPanel() {
         </button>
       </div>
 
-<<<<<<< HEAD
       {activeTab === 'sales' && (
         <div className="mt-6">
           {/* Stats Cards */}
@@ -225,8 +210,6 @@ export default function AdminPanel() {
         </div>
       )}
 
-=======
->>>>>>> c2611885a86f5d785e90f90ba272a6e7b4546637
       {activeTab === 'events' && (
         <div className="mt-6 overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200 rounded-lg border border-gray-200 bg-white">

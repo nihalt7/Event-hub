@@ -50,16 +50,12 @@ export default function Dashboard() {
                   <tr>
                     <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">Event</th>
                     <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">Date</th>
-<<<<<<< HEAD
                     <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">Tickets Sold</th>
-=======
->>>>>>> c2611885a86f5d785e90f90ba272a6e7b4546637
                     <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">Status</th>
                     <th className="px-4 py-3 text-right text-xs font-medium uppercase text-gray-500">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
-<<<<<<< HEAD
                   {myEvents.slice(0, 10).map((event) => {
                     const ticketsSold = event.ticketTypes?.reduce((sum, t) => sum + (t.sold || 0), 0) || 0;
                     const totalCapacity = event.ticketTypes?.reduce((sum, t) => sum + (t.quantity || 0), 0) || 0;
@@ -91,27 +87,6 @@ export default function Dashboard() {
                       </tr>
                     );
                   })}
-=======
-                  {myEvents.slice(0, 10).map((event) => (
-                    <tr key={event._id}>
-                      <td className="px-4 py-3 font-medium text-gray-900">{event.title}</td>
-                      <td className="px-4 py-3 text-gray-600">{formatDate(event.date)}</td>
-                      <td className="px-4 py-3">
-                        <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${
-                          event.status === 'published' ? 'bg-green-100 text-green-800' :
-                          event.status === 'draft' ? 'bg-gray-100 text-gray-800' : 'bg-amber-100 text-amber-800'
-                        }`}>
-                          {event.status}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 text-right">
-                        <Link to={`/events/${event._id}`} className="text-primary-600 hover:underline">View</Link>
-                        {' · '}
-                        <Link to={`/events/edit/${event._id}`} className="text-primary-600 hover:underline">Edit</Link>
-                      </td>
-                    </tr>
-                  ))}
->>>>>>> c2611885a86f5d785e90f90ba272a6e7b4546637
                 </tbody>
               </table>
             </div>

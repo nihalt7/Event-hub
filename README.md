@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # EventHub – Event Management Platform
 
 A production-ready event management web application where **attendees** can register, browse events, book tickets, and manage bookings, and **organizers** can create and manage events. Includes **admin** panel for user and event moderation.
@@ -228,6 +227,3 @@ To create an admin user, either:
 ## License
 
 MIT.
-=======
-# Event-hub
->>>>>>> 8d689c58326d6a4e4c9573fba2c37848d99ebb1d

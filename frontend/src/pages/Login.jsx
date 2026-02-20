@@ -22,14 +22,10 @@ export default function Login() {
       toast.success('Welcome back!');
       navigate('/dashboard');
     } catch (err) {
-<<<<<<< HEAD
       const msg = err.code === 'ERR_NETWORK' || !err.response
         ? 'Cannot reach server. Is the backend running?'
         : (err.response?.data?.message || 'Login failed');
       toast.error(msg);
-=======
-      toast.error(err.response?.data?.message || 'Login failed');
->>>>>>> c2611885a86f5d785e90f90ba272a6e7b4546637
     } finally {
       setLoading(false);
     }
