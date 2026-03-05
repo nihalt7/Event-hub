@@ -10,6 +10,7 @@ export default function TicketScanner() {
   const [scanning, setScanning] = useState(false);
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [lastPayload, setLastPayload] = useState(null);
   const [stats, setStats] = useState({ total: 0, checkedIn: 0 });
   const scannerRef = useRef(null);
   const html5QrCodeRef = useRef(null);
@@ -98,6 +99,9 @@ export default function TicketScanner() {
           return;
         }
 
+        // Remember payload for secure check-in
+        setLastPayload(payload);
+
         setLoading(true);
 
         // Verify ticket on server
@@ -142,6 +146,9 @@ export default function TicketScanner() {
       if (!bookingId) {
         throw new Error('Invalid QR code');
       }
+
+      // Legacy QR has no secure payload
+      setLastPayload(null);
 
       setLoading(true);
 
@@ -201,8 +208,13 @@ export default function TicketScanner() {
     
     setLoading(true);
     try {
-      // Use the direct check-in by ID endpoint
-      await api.patch(`/bookings/${result.booking.id}/check-in`);
+      if (lastPayload) {
+        // For new QR codes, use secure payload-based check-in
+        await api.post('/bookings/check-in', { payload: lastPayload });
+      } else {
+        // Fallback for legacy / URL-based codes or manual selection
+        await api.patch(`/bookings/${result.booking.id}/check-in`);
+      }
       
       setResult({
         ...result,
@@ -231,6 +243,7 @@ export default function TicketScanner() {
 
   const resetScanner = () => {
     setResult(null);
+    setLastPayload(null);
     if (html5QrCodeRef.current) {
       html5QrCodeRef.current.resume();
     }
