@@ -74,13 +74,83 @@ export default function TicketScanner() {
 
   const handleScan = async (data) => {
     if (loading) return;
-    
+
     try {
-      // Parse QR data
-      const payload = JSON.parse(data);
-      
-      // Verify it's for this event
-      if (payload.eid !== eventId) {
+      let payload;
+      let isUrlPayload = false;
+
+      // First try to parse as JSON (new QR codes)
+      try {
+        payload = JSON.parse(data);
+      } catch {
+        isUrlPayload = true;
+      }
+
+      // New JSON-based QR: { bid, eid, uid, tok }
+      if (!isUrlPayload && payload && payload.bid && payload.eid && payload.tok) {
+        // Verify it's for this event
+        if (payload.eid !== eventId) {
+          setResult({
+            success: false,
+            message: 'This ticket is for a different event!',
+            type: 'wrong_event',
+          });
+          return;
+        }
+
+        setLoading(true);
+
+        // Verify ticket on server
+        const verifyRes = await api.post('/bookings/verify-qr', { payload });
+
+        setResult({
+          success: true,
+          verified: true,
+          booking: verifyRes.data.booking,
+          message: 'Ticket verified successfully!',
+        });
+
+        // Stop scanning after successful scan
+        if (html5QrCodeRef.current) {
+          html5QrCodeRef.current.pause(true);
+        }
+        return;
+      }
+
+      // Legacy QR codes: URL to booking confirmation (e.g. /bookings/:id/confirmation)
+      let bookingId = null;
+
+      if (isUrlPayload) {
+        try {
+          // Try full URL first
+          const url = new URL(data);
+          const parts = url.pathname.split('/').filter(Boolean);
+          const idx = parts.indexOf('bookings');
+          if (idx !== -1 && parts[idx + 1]) {
+            bookingId = parts[idx + 1];
+          }
+        } catch {
+          // Fallback: treat as path string
+          const parts = data.split('/').filter(Boolean);
+          const idx = parts.indexOf('bookings');
+          if (idx !== -1 && parts[idx + 1]) {
+            bookingId = parts[idx + 1];
+          }
+        }
+      }
+
+      if (!bookingId) {
+        throw new Error('Invalid QR code');
+      }
+
+      setLoading(true);
+
+      // Fetch booking by ID and ensure it belongs to this event
+      const res = await api.get(`/bookings/${bookingId}`);
+      const booking = res.data.booking;
+      const bookingEventId = String(booking.event?._id || booking.event);
+
+      if (bookingEventId !== eventId) {
         setResult({
           success: false,
           message: 'This ticket is for a different event!',
@@ -89,23 +159,26 @@ export default function TicketScanner() {
         return;
       }
 
-      setLoading(true);
-      
-      // Verify ticket on server
-      const verifyRes = await api.post('/bookings/verify-qr', { payload });
-      
       setResult({
         success: true,
         verified: true,
-        booking: verifyRes.data.booking,
-        message: 'Ticket verified successfully!',
+        booking: {
+          id: booking._id,
+          user: booking.user,
+          event: booking.event,
+          ticketType: booking.ticketType,
+          quantity: booking.quantity,
+          status: booking.status,
+          checkedIn: booking.checkedIn,
+          checkedInAt: booking.checkedInAt,
+        },
+        message: booking.checkedIn ? 'Ticket already used!' : 'Ticket verified successfully!',
+        type: booking.checkedIn ? 'already_used' : null,
       });
 
-      // Stop scanning after successful scan
       if (html5QrCodeRef.current) {
         html5QrCodeRef.current.pause(true);
       }
-
     } catch (err) {
       const errorMsg = err.response?.data?.message || 'Invalid QR code';
       setResult({
@@ -114,7 +187,7 @@ export default function TicketScanner() {
         checkedInAt: err.response?.data?.checkedInAt,
         type: err.response?.data?.checkedInAt ? 'already_used' : 'error',
       });
-      
+
       if (html5QrCodeRef.current) {
         html5QrCodeRef.current.pause(true);
       }
