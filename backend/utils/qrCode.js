@@ -67,15 +67,21 @@ const generateQRCode = async (booking) => {
 const verifyQRPayload = (payload, booking) => {
   const errors = [];
 
+  // Normalize booking event id whether it's populated or just an ObjectId
+  const bookingEventId =
+    booking.event && booking.event._id
+      ? booking.event._id.toString()
+      : booking.event.toString();
+
   if (payload.bid !== booking._id.toString()) {
     errors.push('Booking ID mismatch');
   }
 
-  if (payload.eid !== booking.event.toString()) {
+  if (payload.eid !== bookingEventId) {
     errors.push('Event ID mismatch');
   }
 
-  if (payload.tok !== booking.secureToken) {
+  if (!booking.secureToken || payload.tok !== booking.secureToken) {
     errors.push('Invalid security token');
   }
 
